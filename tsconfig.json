@@ -4,8 +4,7 @@
     // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
+    "noEmit": false,
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "commonjs",
