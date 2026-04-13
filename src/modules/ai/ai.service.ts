@@ -1,5 +1,6 @@
 import { openai } from "../../config/openai";
 import DebugSession from '../session/session.model'
+import AiAnalysis from './ai.model'
 const analyzerPrompt = (errorMessage: string, codeSnippet: string | null | undefined, context: string | null | undefined) => {
   return `You are a senior software engineer.\nAnalyze the following error and code.\nError:\n${errorMessage}\nCode:${codeSnippet}\ncontext:${context}
   \nReturn ONLY valid JSON:\n{\n"explanation": "...",\n"rootCause": "...",\n"fix": "...",\n"improvedCode": "..."\n}`
@@ -18,9 +19,14 @@ export const analyzeError = async (sessionId: string) => {
     ]
   })
   try {
-    return JSON.parse(response.choices[0]?.message.content || 'Unable to generate Resonse, Please try Again!')
+    return JSON.parse(response.choices[0]?.message.content!)
   } catch (err) {
     console.log(err)
     throw new Error("AI response parsing failed");
   }
 }
+
+export const getAnalysisSVC = async (sessionId: string) => { 
+  const analysis = await AiAnalysis.findOne({ sessionId })
+  return analysis
+} 
