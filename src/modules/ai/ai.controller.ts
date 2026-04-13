@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { AuthRequest } from "../../middleware/auth.middleware";
-import { analyzeError, getAnalysisSVC } from "./ai.service";
+import { analyzeError, deleteAnalysisBySessionIdSVC, getAnalysisSVC } from "./ai.service";
 import AiAnalysis from './ai.model'
 export const analyze = async (req: AuthRequest, res: Response) => {
   try {
@@ -27,4 +27,14 @@ export const getAnalysis = async (req: AuthRequest, res: Response) => {
   } catch (err: any) {
     return res.status(500).json({ message: err.message })
   }
-} 
+}
+
+export const deleteAnalysis = async (req: AuthRequest, res: Response) => {
+  try {
+
+    await deleteAnalysisBySessionIdSVC(req.params.sessionId as string)
+    return res.json({ message: "Deleted" })
+  } catch (err: any) {
+    return res.status(500).json({ message: err.message })
+  }
+}

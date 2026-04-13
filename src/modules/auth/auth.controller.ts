@@ -17,9 +17,9 @@ export const signup = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try {
     const user = await authServices.login(req.body.email, req.body.password)
-    const accessToken = generateAccessToken(user._id.toString())
-    const refreshToken = generateRefreshAccessToken(user._id.toString())
-    return res.json({ accessToken, refreshToken })
+    const token = generateAccessToken(user._id.toString())
+    // const refreshToken = generateRefreshAccessToken(user._id.toString())
+    return res.json(token)
   } catch (err: any) {
     return res.status(400).json({
       message: err.message

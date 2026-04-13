@@ -5,9 +5,11 @@ export const generateAccessToken = (userId: string) => {
     console.log("jwt secret not found!")
     return null
   }
-  return jwt.sign({userId}, env.jwt_secret, {
-    expiresIn: '15m'
-  })
+  return {
+    accessToken: jwt.sign({ userId }, env.jwt_secret, {
+      expiresIn: '7d'
+    }), expriresAT: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+  }
 }
 
 
@@ -16,7 +18,7 @@ export const generateRefreshAccessToken = (userId: string) => {
     console.log("jwt secret not found!")
     return null
   }
-  return jwt.sign({userId}, env.jwt_secret, {
+  return jwt.sign({ userId }, env.jwt_secret, {
     expiresIn: '7d'
   })
 }

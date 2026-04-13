@@ -30,3 +30,7 @@ export const getAnalysisSVC = async (sessionId: string) => {
   const analysis = await AiAnalysis.findOne({ sessionId })
   return analysis
 } 
+
+export const deleteAnalysisBySessionIdSVC = async (sessionId: string) => {
+  return await AiAnalysis.deleteOne({ sessionId })
+}

@@ -1,12 +1,13 @@
 import { AuthRequest } from "../../middleware/auth.middleware";
 import { Response } from "express";
 import * as sessionServices from './session.service'
+import { detectLanguage } from "../../utils/languageDetection";
 
 
 export const createDebugSession = async (req: AuthRequest, res: Response) => {
   try {
     const seassion = await sessionServices.createSession(
-      req.body,
+      { ...req.body, language: await detectLanguage(req.body.codeSnippet) || 'unknown' },
       req.userId!
     )
     return res.json(seassion)
